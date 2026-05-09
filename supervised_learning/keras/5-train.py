@@ -6,7 +6,7 @@ import tensorflow.keras as K
 def train_model(network, data, labels, batch_size,
                 epochs, validation_data=None, verbose=True, shuffle=False):
     """documented"""
-    if validation_data == None:
+    if validation_data is None:
         history = network.fit(
             data,
             labels,
