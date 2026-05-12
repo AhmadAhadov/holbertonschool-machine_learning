@@ -25,7 +25,7 @@ def train_model(network, data, labels, batch_size,
                 staircase=True
             )
         if early_stopping is True:
-            early_stopping = K.callbacks.EarlyStopping(
+            early_stopping_callback = K.callbacks.EarlyStopping(
                 monitor='val_loss',
                 patience=patience
             )
@@ -37,7 +37,7 @@ def train_model(network, data, labels, batch_size,
                 verbose=verbose,
                 shuffle=shuffle,
                 validation_data=validation_data,
-                callbacks=[early_stopping]
+                callbacks=[early_stopping_callback, learning_rate]
             )
         else:
             history = network.fit(
