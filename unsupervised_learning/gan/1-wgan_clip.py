@@ -30,7 +30,7 @@ class WGAN_clip(keras.Model):
             learning_rate=self.learning_rate,
             beta_1=self.beta_1, beta_2=self.beta_2)
         self.generator.compile(optimizer=self.generator.optimizer,
-                                loss=self.generator.loss)
+                               loss=self.generator.loss)
 
         # define the discriminator loss and optimizer
         self.discriminator.loss = lambda x, y: (
@@ -39,14 +39,14 @@ class WGAN_clip(keras.Model):
             learning_rate=self.learning_rate,
             beta_1=self.beta_1, beta_2=self.beta_2)
         self.discriminator.compile(optimizer=self.discriminator.optimizer,
-                                    loss=self.discriminator.loss)
+                                   loss=self.discriminator.loss)
 
     def get_fake_sample(self, size=None, training=False):
         """Generate a fake sample using the generator."""
         if not size:
             size = self.batch_size
         return self.generator(self.latent_generator(size),
-                               training=training)
+                              training=training)
 
     def get_real_sample(self, size=None):
         """Get a real sample from the real examples."""
