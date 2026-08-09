@@ -18,7 +18,7 @@ def play(env, Q, max_steps=100):
             the board state at each step
     """
     state, _ = env.reset()
-    total_rewards = 0
+    total_rewards = 0.0
     rendered_outputs = []
 
     rendered_outputs.append(_format_render(env.render()))
@@ -38,4 +38,4 @@ def play(env, Q, max_steps=100):
 def _format_render(output):
     """Replaces ANSI highlight codes with double quotes"""
     output = output.replace('\x1b[41m', '"').replace('\x1b[0m', '"')
-    return output.strip('\n')
+    return output.strip('\n').lstrip(' ')
