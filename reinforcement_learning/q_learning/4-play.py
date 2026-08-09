@@ -36,6 +36,6 @@ def play(env, Q, max_steps=100):
 
 
 def _format_render(output):
-    """Replaces ANSI highlight codes with backticks"""
-    output = output.replace('\x1b[41m', '`').replace('\x1b[0m', '`')
+    """Replaces ANSI highlight codes with double quotes"""
+    output = output.replace('\x1b[41m', '"').replace('\x1b[0m', '"')
     return output.strip('\n')
