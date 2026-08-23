@@ -4,7 +4,7 @@ import numpy as np
 
 
 def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1,
-                 gamma=0.99):
+                gamma=0.99):
     """Perform the Monte Carlo algorithm.
 
     env is environment instance
@@ -17,29 +17,25 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1,
     gamma is the discount rate
     Returns: V, the updated value estimate
     """
-    for _ in range(episodes):
-        state, _ = env.reset()
+    for ep in range(episodes):
+        state = env.reset()[0]
         episode = []
-        for _ in range(max_steps):
+
+        for step in range(max_steps):
             action = policy(state)
-            next_state, reward, terminated, truncated, _ = env.step(action)
-            episode.append((state, reward))
-            state = next_state
-            if terminated or truncated:
+            next_state, reward, done, truncated, _ = env.step(action)
+            episode.append([state, action, reward, next_state])
+            if done:
                 break
+            state = next_state
 
         episode = np.array(episode, dtype=int)
-        visited = set()
-        first_visit_steps = []
-        for step, (state, _) in enumerate(episode):
-            first_visit_steps.append(state not in visited)
-            visited.add(state)
 
         G = 0
-        for step in range(len(episode) - 1, -1, -1):
-            state, reward = episode[step]
-            G = reward + gamma * G
-            if first_visit_steps[step]:
+        for step in reversed(range(len(episode))):
+            state, action, reward, next_state = episode[step]
+            G = gamma * G + reward
+            if state not in episode[:ep, 0]:
                 V[state] = V[state] + alpha * (G - V[state])
 
     return V
